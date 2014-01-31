@@ -1,5 +1,3 @@
-% A Handbook for Academic Organizers of Community Standards
-
 # Authors and Their Affiliations {.unnumbered}
 
 The following authors contributed to this handbook:
