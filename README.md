@@ -4,6 +4,7 @@ A Handbook for Academic Organizers of Community Standards
 A project to document the work of the organizers of the COMBINE community.
 
 ----
+
 *Lead author*:  Michael Hucka (http://www.cds.caltech.edu/~mhucka)
 
 *Copyright*:    To be determined.
@@ -11,6 +12,7 @@ A project to document the work of the organizers of the COMBINE community.
 *Project page*: http://mhucka.github.io/hamocs
 
 *Repository*:   https://github.com/mhucka/hamocs
+
 ----
 
 
