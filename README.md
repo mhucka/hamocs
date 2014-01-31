@@ -13,8 +13,6 @@ A project to document the work of the organizers of the COMBINE community.
 
 *Repository*:   https://github.com/mhucka/hamocs
 
-----
-
 
 How can you contribute?
 -----------------------
