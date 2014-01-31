@@ -42,6 +42,7 @@ sed-replace = <li><a href=\"$$out\#\1\">\2</a></li>
 $(output)/index.html: $(header-tp) $(nav-tp) $(body-tp) $(author-templ) $(toc-tp)
 $(output)/index.html: $(wildcard $(input)/*.md)
 $(output)/index.html: Makefile $(index-top-tp) $(index-bot-tp)
+	mkdir -p $(output)
 	make style-files
 	rm -f toc.html
 	num=1; \
