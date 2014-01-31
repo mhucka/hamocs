@@ -9,7 +9,7 @@ Many efforts to develop standards for computational systems biology have been cr
 
 *Copyright*:    To be determined.
 
-*Project page*: http://mhucka.github.io/hamocs
+*Formatted handbook*: http://mhucka.github.io/hamocs
 
 *Repository*:   https://github.com/mhucka/hamocs
 
