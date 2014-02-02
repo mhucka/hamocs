@@ -3,6 +3,9 @@ output = formatted
 
 handbook: $(output)/index.html
 
+clean:
+	rm -f $(wildcard $(output)/*.html)
+
 body-md-files  = \
 	introduction.md \
 	managing-expectations.md \
