@@ -53,14 +53,29 @@ toc-tp       = $(template-dir)/toc-template.html
 index-top-tp = $(template-dir)/index-top-template.html
 index-bot-tp = $(template-dir)/index-bottom-template.html
 
+# There are dependencies between the Pandoc arguments listed here and the
+# processing done below.  For instance, --toc and -number-sections must
+# remain or the other stuff below will break.
+
 args = \
 	-f markdown \
+	--data-dir $(output) \
 	--include-in-header=$(header-tp) \
 	--number-sections \
-	--data-dir formatted \
 	--mathjax \
 	--smart \
 	--toc
+
+# Pandoc doesn't offer a way to generate a table of contents for multipage
+# HTML output.  The approach taken here uses two passes.  First, pandoc is
+# run over each input file using a special template solely for generating the
+# table of contents for one file.  The output is massaged using sed, and
+# appended to a temporary file called toc.html.  Then, the content of this
+# file is inserted into the navigation bar and the file index.html using sed
+# for the former and simple file append commands for the latter.
+#
+# This convoluted mess should not be necessary for other output formats
+# such as LaTeX and ePUB.  It's just the HTML case that needs this.
 
 pandoc-toc  = pandoc $(args) --template=$(toc-tp)
 pandoc-real = pandoc $(args) --include-before-body=nav.html
