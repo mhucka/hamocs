@@ -36,8 +36,8 @@ pandoc-real = pandoc $(args) --include-before-body=nav.html
 timestamp   = $(shell date '+%G-%m-%d %H:%M %Z')
 file-count  = $(words $(body-md-files))
 
-sed-match   = .*\#\([^\"]*\).*\(<span class=\"header-section.*\)</a>.*
-sed-replace = <li><a href=\"$$out\#\1\">\2</a></li>
+sed-match   = .*\#\([^\"]*\).*<span class=\"toc-.*\">\(.*\)</span>\(.*\)</a>.*
+sed-replace = <li><a href=\"$$out\#\1\"><span class=\"section-number\">\2</span>\3</a></li>
 
 $(output)/index.html: $(header-tp) $(nav-tp) $(body-tp) $(author-templ) $(toc-tp)
 $(output)/index.html: $(wildcard $(input)/*.md)
