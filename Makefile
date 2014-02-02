@@ -1,16 +1,45 @@
+## ============================================================================
+## Description : Makefile for generating formatted output for the handbook
+## Author(s)   : Michael Hucka <mhucka@caltech.edu>
+## Organization: California Institute of Technology
+## Date created: 2014-01-24
+## Source      : https://github.com/mhucka/hamocs
+## ============================================================================
+##
+## Normal usage:
+##
+##   make
+##       Regenerates the formatted HTML output in the directory $(output).
+##
+##   make clean
+##       Deletes all HTML files from the directory $(output).
+##
+## ----------------------------------------------------------------------------
+
 input  = contents
 output = formatted
+
+# The index file serves as a kind of marker file; it is always regenerated,
+# and regenerating it causes everything else to be regenerated.  This is not
+# the most efficient approach, but it makes this makefile simple, and
+# besides, the handbook is short enough that the time to do it all is short.
 
 handbook: $(output)/index.html
 
 clean:
 	rm -f $(wildcard $(output)/*.html)
 
+# The following should be the list of main content files.  It EXCLUDES
+# front-matter.md, authors.md, and contact.md, mainly because they need to be
+# formatted using different configuration settings later below.
+
 body-md-files  = \
 	introduction.md \
 	managing-expectations.md \
 	arranging-funding.md \
 	organizing-meetings.md
+
+# The remainder below should not need to change under most circumstances.
 
 template-dir = src/handbook-templates
 
