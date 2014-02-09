@@ -28,6 +28,8 @@ The easiest way is to use GitHub's online file editor.  After you are added as c
 
 ### Editing online
 
+Since GitHub offers an online text editor for files in a repository, once you are a member of the "hamocs" project, you will be able to edit files in the repository.
+
 ### Editing a local copy
 
 To use your own editor, you need to know a little bit about how to use git to create a clone on your computer's disk, how to commit changes to the repository, and how to push changes to GitHub.
