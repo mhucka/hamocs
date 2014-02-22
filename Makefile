@@ -30,14 +30,14 @@ clean:
 	rm -f $(wildcard $(output)/*.html)
 
 # The following should be the list of main content files.  It EXCLUDES
-# front-matter.md, authors.md, and contact.md, mainly because they need to be
+# front-matter.txt, authors.txt, and contact.txt, mainly because they need to be
 # formatted using different configuration settings later below.
 
-body-md-files  = \
-	introduction.md \
-	managing-expectations.md \
-	arranging-funding.md \
-	organizing-meetings.md
+body.txt-files  = \
+	introduction.txt \
+	managing-expectations.txt \
+	arranging-funding.txt \
+	organizing-meetings.txt
 
 # The remainder below should not need to change under most circumstances.
 
@@ -81,20 +81,20 @@ pandoc-toc  = pandoc $(args) --template=$(toc-tp)
 pandoc-real = pandoc $(args) --include-before-body=nav.html
 
 timestamp   = $(shell date '+%G-%m-%d %H:%M %Z')
-file-count  = $(words $(body-md-files))
+file-count  = $(words $(body.txt-files))
 
 sed-match   = .*\#\([^\"]*\).*<span class=\"toc-.*\">\(.*\)</span>\(.*\)</a>.*
 sed-replace = <li><a href=\"$$out\#\1\"><span class=\"section-number\">\2</span>\3</a></li>
 
 $(output)/index.html: $(header-tp) $(nav-tp) $(body-tp) $(author-templ) $(toc-tp)
-$(output)/index.html: $(wildcard $(input)/*.md)
+$(output)/index.html: $(wildcard $(input)/*.txt)
 $(output)/index.html: Makefile $(index-top-tp) $(index-bot-tp)
 	mkdir -p $(output)
 	make style-files
 	rm -f toc.html
 	num=1; \
-	for in in $(body-md-files); do \
-	  out="$${in%.md}.html"; \
+	for in in $(body.txt-files); do \
+	  out="$${in%.txt}.html"; \
 	  offset=`expr $$num - 1`; \
 	  $(pandoc-toc) --number-offset=$$offset -o $(output)/$$out $(input)/$$in; \
 	  sed -n -e "s|$(sed-match)|$(sed-replace)|p" < $(output)/$$out >> toc.html; \
@@ -105,19 +105,19 @@ $(output)/index.html: Makefile $(index-top-tp) $(index-bot-tp)
 	done;
 	sed -e '/<!-- @@HTML-TOC@@ -->/r toc.html' < $(nav-tp) > nav.html
 	offset=0; \
-	for in in $(body-md-files); do \
-	  out="$${in%.md}.html"; \
+	for in in $(body.txt-files); do \
+	  out="$${in%.txt}.html"; \
 	  $(pandoc-real) --template=$(body-tp) --number-offset=$$offset -o $(output)/$$out $(input)/$$in; \
 	  offset=`expr $$offset + 1`; \
 	done;
-	$(pandoc-real) --template=$(author-tp) -o $(output)/authors.html $(input)/authors.md
-	$(pandoc-real) --template=$(single-pg-tp) -o $(output)/contact.html $(input)/contact.md
-	sed -e 's/<!-- @@TIMESTAMP@@ -->/$(timestamp)/' < $(input)/front-matter.md > index.md
-	$(pandoc-real) --template=$(index-top-tp) -o $(output)/index.html index.md
+	$(pandoc-real) --template=$(author-tp) -o $(output)/authors.html $(input)/authors.txt
+	$(pandoc-real) --template=$(single-pg-tp) -o $(output)/contact.html $(input)/contact.txt
+	sed -e 's/<!-- @@TIMESTAMP@@ -->/$(timestamp)/' < $(input)/front-matter.txt > index.txt
+	$(pandoc-real) --template=$(index-top-tp) -o $(output)/index.html index.txt
 	cat toc.html >> $(output)/index.html
-	$(pandoc-real) --template=$(index-bot-tp) -o index-bottom.html index.md
+	$(pandoc-real) --template=$(index-bot-tp) -o index-bottom.html index.txt
 	cat index-bottom.html >> $(output)/index.html
-	rm -f toc.html nav.html index.md index-bottom.html
+	rm -f toc.html nav.html index.txt index-bottom.html
 
 # -----------------------------------------------------------------------------
 # The following rules populate the formatted/css, etc., directories from the
@@ -197,4 +197,4 @@ style-files: $(all-style-files)
 # -----------------------------------------------------------------------------
 
 .SUFFIXES:
-.SUFFIXES: .md .css .js .svg .ttf .eot .woff .png .jpg .html
+.SUFFIXES: .txt .css .js .svg .ttf .eot .woff .png .jpg .html
