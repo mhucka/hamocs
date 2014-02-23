@@ -26,10 +26,14 @@ from contextlib import contextmanager
 # Configuration variables.
 #
 
-MAKE_URI = '/hamocs-make'
-LOG_URI  = '/hamocs-log'
-LOG_FILE = "flask.log"
-PORT     = 9005
+HOME      = "/home/mhucka/hamocs"
+REPO_DIR  = HOME + "/git-repo"
+PAGES_DIR = REPO_DIR + "/gh-pages"
+LOG_FILE  = HOME + "/flask.log"
+
+MAKE_URI  = '/hamocs-make'
+LOG_URI   = '/hamocs-log'
+PORT      = 9005
 
 #
 # Global variables -- not for configuration.
@@ -55,16 +59,14 @@ def pushd(new_dir):
 def do_update():
     global outlog
 
-    origin = os.path.dirname(os.path.realpath(__file__))
-    with pushd('git-repo'):
+    with pushd(REPO_DIR):
         check_call('git pull', stdout=outlog, stderr=outlog, shell=True)
         check_call('make handbook', stdout=outlog, stderr=outlog, shell=True)
-        with pushd('gh-pages'):
+        with pushd(PAGES_DIR):
             # gh-pages is a separate clone, so need to do git pull separately.
             call('git pull origin', stdout=outlog, stderr=outlog, shell=True)
             call('git commit -a -m "Latest version."', shell=True, stderr=outlog, stdout=outlog)
             call('git push origin gh-pages', shell=True, stderr=outlog, stdout=outlog)
-    os.chdir(origin)
     return 'OK'
 
 
