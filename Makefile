@@ -35,8 +35,10 @@ clean:
 
 body.txt-files  = \
 	introduction.txt \
-	managing-expectations.txt \
+	types-of-standards.txt \
 	arranging-funding.txt \
+	organizing-a-community.txt \
+	developing-specifications.txt \
 	organizing-meetings.txt
 
 # The remainder below should not need to change under most circumstances.
