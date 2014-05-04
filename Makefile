@@ -16,30 +16,28 @@
 ##
 ## ----------------------------------------------------------------------------
 
-input  = contents
-output = formatted
+input	   = contents
+output	   = formatted
 
 # The index file serves as a kind of marker file; it is always regenerated,
 # and regenerating it causes everything else to be regenerated.  This is not
 # the most efficient approach, but it makes this makefile simple, and
 # besides, the handbook is short enough that the time to do it all is short.
+# That is why the default target here is "handbook".
 
 handbook: $(output)/index.html
+
+# Running "make clean" will remove the formatted HTML files.
 
 clean:
 	rm -f $(wildcard $(output)/*.html)
 
-# The following should be the list of main content files.  It EXCLUDES
-# front-matter.txt, authors.txt, and contact.txt, mainly because they need to be
-# formatted using different configuration settings later below.
+# The order of the files in the contents directory must be given in the file
+# ORDER.txt.  The list in the file ORDER.txt must *exclude* the special files
+# front-matter.txt, authors.txt, and contact.txt, even though we put those
+# files in the contents/ directory too.
 
-body.txt-files  = \
-	introduction.txt \
-	types-of-standards.txt \
-	arranging-funding.txt \
-	organizing-a-community.txt \
-	developing-specifications.txt \
-	organizing-meetings.txt
+body.txt-files = $(shell grep -v '^\s*\#' $(input)/ORDER.txt)
 
 # The remainder below should not need to change under most circumstances.
 
@@ -91,6 +89,9 @@ sed-replace = <li><a href=\"$$out\#\1\"><span class=\"section-number\">\2</span>
 $(output)/index.html: $(header-tp) $(nav-tp) $(body-tp) $(author-templ) $(toc-tp)
 $(output)/index.html: $(wildcard $(input)/*.txt)
 $(output)/index.html: Makefile $(index-top-tp) $(index-bot-tp)
+	echo "--------------"
+	echo $(body.txt-files)
+	echo "--------------"
 	mkdir -p $(output)
 	make style-files
 	rm -f toc.html
