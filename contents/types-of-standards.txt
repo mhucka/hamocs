@@ -1,1 +1,3 @@
 # Types of standards
+
+There are different types of standards.
