@@ -39,6 +39,10 @@ clean:
 
 body.txt-files = $(shell grep -v '^\s*\#' $(input)/ORDER.txt)
 
+# The bibliography file is set by the next variable.
+
+body.bib-file = $(input)/references.bib
+
 # The remainder below should not need to change under most circumstances.
 
 template-dir = src/handbook-templates
@@ -52,6 +56,7 @@ nav-tp       = $(template-dir)/nav-template.html
 toc-tp       = $(template-dir)/toc-template.html
 index-top-tp = $(template-dir)/index-top-template.html
 index-bot-tp = $(template-dir)/index-bottom-template.html
+bib-csl-file = $(template-dir)/apa-5th-edition.csl
 
 # There are dependencies between the Pandoc arguments listed here and the
 # processing done below.  For instance, --toc and -number-sections must
@@ -59,6 +64,8 @@ index-bot-tp = $(template-dir)/index-bottom-template.html
 
 args = \
 	-f markdown \
+	--bibliography=$(body.bib-file) \
+	--csl=$(bib-csl-file) \
 	--data-dir $(output) \
 	--include-in-header=$(header-tp) \
 	--number-sections \
@@ -83,7 +90,7 @@ pandoc-real = pandoc $(args) --include-before-body=nav.html
 timestamp   = $(shell date '+%G-%m-%d %H:%M %Z')
 file-count  = $(words $(body.txt-files))
 
-sed-match   = .*\#\([^\"]*\).*<span class=\"toc-.*\">\(.*\)</span>\(.*\)</a>.*
+sed-match   = .*\#\([^\"]*\)\"><span class=\"toc-section-number\">\(.*\)</span>\(.*\)</a>.*
 sed-replace = <li><a href=\"$$out\#\1\"><span class=\"section-number\">\2</span>\3</a></li>
 
 $(output)/index.html: $(header-tp) $(nav-tp) $(body-tp) $(author-templ) $(toc-tp)
