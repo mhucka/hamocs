@@ -39,3 +39,8 @@ How can you see the results of your edits?
 -----------------------------------------
 
 There is a system that watch the repository on GitHub.  When any change is committed to the repository, it automatically regenerates the HTML files and updates the HTML copy of the handbook at [http://mhucka.github.io/hamocs].  This process only takes a few seconds, so that normally within 10 seconds of your commit command, you can refresh the web page and see the results.
+
+Acknowledgements
+----------------
+
+The bibliography style in the file `apa-5th-edition.csl` is the product of the CSL project at CitationStyles.org.  The license is the Creative Commons Attribution-ShareAlike 3.0 Unported license.
