@@ -15,3 +15,19 @@
 .section-number {
     margin-right: 1ex;
 }
+
+.references {
+    margin-top: 2em;
+    padding-top: 0.5em;
+    border-top: 1px solid #aaa;
+}
+
+.references:before {
+    content: "References";
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    line-height: 1.1;
+    font-size: 30px;
+    margin-top: 1em;
+    padding-top: 1em;
+}
