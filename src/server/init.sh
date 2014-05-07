@@ -4,6 +4,9 @@ if [ `id -u` = 0 ]; then
     echo "Do not run this as root; run it as mhucka"
 fi
 
+PATH=$PATH:/home/mhucka/.cabal/bin
+export PATH
+
 RETVAL=0
 
 case "$1" in
@@ -22,7 +25,7 @@ case "$1" in
         RETVAL=$?
         ;;
   *)
-        echo "Usage: $NAME {start|stop|restart}" >&2
+        echo "Usage: $0 {start|stop|restart}" >&2
         exit 3
         ;;
 esac
