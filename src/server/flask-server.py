@@ -65,6 +65,7 @@ def do_update():
         with pushd(PAGES_DIR):
             # gh-pages is a separate clone, so need to do git pull separately.
             call('git pull origin', stdout=outlog, stderr=outlog, shell=True)
+            call('git add *.html', stdout=outlog, stderr=outlog, shell=True)
             call('git commit -a -m "Latest version."', shell=True, stderr=outlog, stdout=outlog)
             call('git push origin gh-pages', shell=True, stderr=outlog, stdout=outlog)
     return 'OK'
