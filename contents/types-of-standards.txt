@@ -7,10 +7,10 @@ First, let's be clear about what types of "technical standards" are the subject 
 
 Standards can be informal, as when an informal convention or product becomes generally used by a group of people even though nothing has ever been done to formalize its "standardness", or they can be formal, the outcome of a concerted effort to reach consensus and somehow obtain some type of official recognition.
 
+<!--
 types of standards (see wikipedia): standard specification, standard test method, standard practice, etc.
-
 see http://en.wikipedia.org/wiki/Technical_standard
-
+-->
 
 
 ## Degrees of standardization: how standard can a standard be?
