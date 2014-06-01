@@ -1,5 +1,13 @@
 # Contact {.unnumbered}
 
-This Handbook for Academic Organizers of Community Standards is a project of the [COMBINE](http://co.mbine.org) initiative.  We welcome suggestions, constructive criticism and other feedback.  Please send email to:
+This *Handbook for Academic Organizers of Community Standards* is a project of the [COMBINE](http://co.mbine.org) initiative.  We welcome suggestions, constructive criticism and other feedback.  You can send email to 
 
-[combine-coord@ebi.ac.uk](mailto:combine-coord@ebi.ac.uk)
+<center>
+[combine-coord@googlegroups.com](mailto:combine-coord@googlegroups.com)
+</center>
+
+or visit and post questions to the Google Group via the web at
+
+<center>
+[combine-coord Google Group](https://groups.google.com/forum/#!forum/combine-coord)
+</center>
