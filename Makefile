@@ -10,20 +10,27 @@
 ##
 ##   make
 ##       Regenerates the formatted HTML output in the directory $(output).
+##       If none of the input files changed, does nothing.
+##
+##   make -B
+##       Force regenerating all output files.  Useful for testing, or when
+##       you update the pandoc binary on your computer.
 ##
 ##   make clean
 ##       Deletes all HTML files from the directory $(output).
 ##
 ## ----------------------------------------------------------------------------
 
+# Content and output directories.
+
 input	   = contents
 output	   = formatted
 
-# The index file serves as a kind of marker file; it is always regenerated,
-# and regenerating it causes everything else to be regenerated.  This is not
-# the most efficient approach, but it makes this makefile simple, and
-# besides, the handbook is short enough that the time to do it all is short.
-# That is why the default target here is "handbook".
+# The index file serves as a kind of marker file; it is always regenerated if
+# the source files are changed, and regenerating it causes everything else to
+# be regenerated.  This is not the most efficient approach, but it makes this
+# makefile simple, and besides, the handbook is short enough that the time to
+# do it all is short.  That is why the default target here is "handbook".
 
 handbook: $(output)/index.html
 
@@ -64,10 +71,10 @@ bib-csl-file = $(template-dir)/apa-5th-edition.csl
 
 args = \
 	-f markdown \
-	--bibliography=$(body.bib-file) \
 	--csl=$(bib-csl-file) \
 	--data-dir $(output) \
 	--include-in-header=$(header-tp) \
+	--email-obfuscation=none \
 	--number-sections \
 	--mathjax \
 	--smart \
@@ -84,21 +91,22 @@ args = \
 # This convoluted mess should not be necessary for other output formats
 # such as LaTeX and ePUB.  It's just the HTML case that needs this.
 
-pandoc-toc  = pandoc $(args) --template=$(toc-tp)
-pandoc-real = pandoc $(args) --include-before-body=nav.html
+pan-toc	 = pandoc $(args) --template=$(toc-tp)
+pan-body = pandoc $(args) -B nav.html --bibliography=$(body.bib-file)
+pan-misc = pandoc $(args) -B nav.html
 
 timestamp   = $(shell date '+%G-%m-%d %H:%M %Z')
 file-count  = $(words $(body.txt-files))
 
-sed-match   = .*\#\([^\"]*\)\"><span class=\"toc-section-number\">\(.*\)</span>\(.*\)</a>.*
-sed-replace = <li><a href=\"$$out\#\1\"><span class=\"section-number\">\2</span>\3</a></li>
+sed-match-head   = .*\#\([^\"]*\)\"><span class=\"toc-section-number\">\([0-9]\)</span>\(.*\)</a>.*
+sed-replace-head = <li class=\"headline\"><a href=\"$$out\#\1\"><span class=\"section-number\">\2</span>\3</a></li>
+
+sed-match-rest   = .*\#\([^\"]*\)\"><span class=\"toc-section-number\">\([0-9]\..*\)</span>\(.*\)</a>.*
+sed-replace-rest = <li><a href=\"$$out\#\1\"><span class=\"section-number\">\2</span>\3</a></li>
 
 $(output)/index.html: $(header-tp) $(nav-tp) $(body-tp) $(author-templ) $(toc-tp)
 $(output)/index.html: $(wildcard $(input)/*.txt)
 $(output)/index.html: Makefile $(index-top-tp) $(index-bot-tp)
-	echo "--------------"
-	echo $(body.txt-files)
-	echo "--------------"
 	mkdir -p $(output)
 	make style-files
 	rm -f toc.html
@@ -106,8 +114,9 @@ $(output)/index.html: Makefile $(index-top-tp) $(index-bot-tp)
 	for in in $(body.txt-files); do \
 	  out="$${in%.txt}.html"; \
 	  offset=`expr $$num - 1`; \
-	  $(pandoc-toc) --number-offset=$$offset -o $(output)/$$out $(input)/$$in; \
-	  sed -n -e "s|$(sed-match)|$(sed-replace)|p" < $(output)/$$out >> toc.html; \
+	  $(pan-toc) --number-offset=$$offset -o $(output)/$$out $(input)/$$in; \
+	  sed -n -e "s|$(sed-match-head)|$(sed-replace-head)|p" < $(output)/$$out >> toc.html; \
+	  sed -n -e "s|$(sed-match-rest)|$(sed-replace-rest)|p" < $(output)/$$out >> toc.html; \
 	  if test $$num -ne $(file-count); then \
 	    echo "<li class=\"divider\">" >> toc.html; \
 	  fi; \
@@ -117,15 +126,15 @@ $(output)/index.html: Makefile $(index-top-tp) $(index-bot-tp)
 	offset=0; \
 	for in in $(body.txt-files); do \
 	  out="$${in%.txt}.html"; \
-	  $(pandoc-real) --template=$(body-tp) --number-offset=$$offset -o $(output)/$$out $(input)/$$in; \
+	  $(pan-body) --template=$(body-tp) --number-offset=$$offset -o $(output)/$$out $(input)/$$in; \
 	  offset=`expr $$offset + 1`; \
 	done;
-	$(pandoc-real) --template=$(author-tp) -o $(output)/authors.html $(input)/authors.txt
-	$(pandoc-real) --template=$(single-pg-tp) -o $(output)/contact.html $(input)/contact.txt
+	$(pan-misc) --template=$(author-tp) -o $(output)/authors.html $(input)/authors.txt
+	$(pan-misc) --template=$(single-pg-tp) -o $(output)/contact.html $(input)/contact.txt
 	sed -e 's/<!-- @@TIMESTAMP@@ -->/$(timestamp)/' < $(input)/front-matter.txt > index.txt
-	$(pandoc-real) --template=$(index-top-tp) -o $(output)/index.html index.txt
+	$(pan-misc) --template=$(index-top-tp) -o $(output)/index.html index.txt
 	cat toc.html >> $(output)/index.html
-	$(pandoc-real) --template=$(index-bot-tp) -o index-bottom.html index.txt
+	$(pan-misc) --template=$(index-bot-tp) -o index-bottom.html index.txt
 	cat index-bottom.html >> $(output)/index.html
 	rm -f toc.html nav.html index.txt index-bottom.html
 
