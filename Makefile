@@ -148,6 +148,9 @@ $(output)/index.html: Makefile $(index-top-tp) $(index-bot-tp)
 handbook-css-files = \
 	handbook.css
 
+handbook-js-files = \
+	html-crc-reload.js
+
 bootstrap-css-files = \
 	bootstrap-theme.css \
 	bootstrap-theme.min.css \
@@ -186,6 +189,10 @@ $(output)/js/%.js: src/bootstrap/js/%.js
 	$(shell [ -d $(output)/js ] || mkdir -p $(output)/js)
 	cp -rp src/bootstrap/js/$(notdir $<) $(output)/js/$(notdir $<)
 
+$(output)/js/%.js: src/handbook-js/%.js
+	$(shell [ -d $(output)/js ] || mkdir -p $(output)/js)
+	cp -rp src/handbook-js/$(notdir $<) $(output)/js/$(notdir $<)
+
 $(output)/fonts/%.eot: src/bootstrap/fonts/%.eot
 	$(shell [ -d $(output)/fonts ] || mkdir -p $(output)/fonts)
 	cp -rp src/bootstrap/fonts/$(notdir $<) $(output)/fonts/$(notdir $<)
@@ -202,11 +209,16 @@ $(output)/fonts/%.woff: src/bootstrap/fonts/%.woff
 	$(shell [ -d $(output)/fonts ] || mkdir -p $(output)/fonts)
 	cp -rp src/bootstrap/fonts/$(notdir $<) $(output)/fonts/$(notdir $<)
 
-css-files	= $(addprefix $(output)/css/,$(bootstrap-css-files)) \
-		  $(addprefix $(output)/css/,$(handbook-css-files))
-img-files	= $(addprefix $(output)/img/,$(bootstrap-img-files))
-js-files	= $(addprefix $(output)/js/,$(bootstrap-js-files))
-font-files	= $(addprefix $(output)/fonts/,$(bootstrap-font-files))
+css-files       = $(addprefix $(output)/css/,$(bootstrap-css-files)) \
+                  $(addprefix $(output)/css/,$(handbook-css-files))
+
+img-files       = $(addprefix $(output)/img/,$(bootstrap-img-files))
+
+js-files        = $(addprefix $(output)/js/,$(bootstrap-js-files)) \
+                  $(addprefix $(output)/js/,$(handbook-js-files))
+
+font-files      = $(addprefix $(output)/fonts/,$(bootstrap-font-files))
+
 all-style-files = $(css-files) $(img-files) $(js-files) $(font-files)
 
 style-files: $(all-style-files)
