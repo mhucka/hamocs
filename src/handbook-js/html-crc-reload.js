@@ -15,34 +15,33 @@
 */
 
 var previousCrc = 0;
+
 $(function() {
     check(true);
-    setInterval('check(false)', 1000);
+    setInterval('check(false)', 5000);
 });
 
 function check(firstRun) {
-    
     
     $.ajax({
 	type: 'GET',			
 	url: window.location.pathname,					
 	success: function(data) {						
 	    
-	    if (window.console && window.console.firebug) {
-		
-		for (var x in console) {
-		    delete console[x];
-		}
-	    }
+	    // if (window.console && window.console.firebug) {
+	    //     for (var x in console) {
+	    //         delete console[x];
+	    //     }
+	    // }
 	    
-	    if(firstRun) {	
+	    if (firstRun) {	
 		previousCrc = crc32(data);
 		return;
 	    }
 	    
 	    var newCrc = crc32(data);
 	    
-	    if(newCrc != previousCrc) {
+	    if (newCrc != previousCrc) {
 		location.reload();
 	    } 
 	},
