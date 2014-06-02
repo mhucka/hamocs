@@ -1,4 +1,4 @@
-# Organizing Meetings
+# Organizing meetings
 
 Different types of meetings are designed to fulfill different goals.  Some meetings are more focused on presentation of knowledge, while others are more focused on discussions between participants.  There are many common practical aspects of organizing and running meetings, and we discuss these practical matters in this chapter.
 
