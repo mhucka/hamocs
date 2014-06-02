@@ -34,7 +34,7 @@ function check() {
         cache: false,
 	url: window.location.pathname,					
 	success: function(data) {						
-	    if (previousCrc = 0) {	
+	    if (previousCrc == 0) {	
 		previousCrc = crc32(data);
 		return;
 	    }
