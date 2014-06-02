@@ -1,4 +1,4 @@
-# Types of standards
+# Types of standards and standardization processes
 
 First, let's be clear about what types of "technical standards" are the subject of this handbook.  The focus is on technical standards in *information technology*: that is, data formats, procedural norms, technical processes and practices related to the use of computers, electronic communication and activities associated with them.  The purpose of this chapter is to discuss different types of standards, different degrees of standardization, and different approaches to reaching standards.
 
