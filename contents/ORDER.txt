@@ -9,5 +9,6 @@ introduction.txt
 types-of-standards.txt
 arranging-funding.txt
 organizing-a-community.txt
-developing-specifications.txt
 organizing-meetings.txt
+developing-specifications.txt
+legal-matters.txt
